@@ -1,0 +1,30 @@
+fastapi
+uvicorn
+python-multipart
+
+# PDF Processing
+pypdf
+pdf2image
+pytesseract
+
+# Text Cleaning
+regex
+
+# Embeddings
+sentence-transformers
+torch
+
+# Vector Database
+qdrant-client
+
+# LLM (Ollama)
+ollama
+
+# Chunking
+langchain-text-splitters
+
+# Redis Cache
+redis
+
+# Environment (optional)
+python-dotenv
