@@ -1,14 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { askQuestion } from "../services/api";
-import Sidebar from "../components/Sidebar";
 
 function Chat() {
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const [scripture, setScripture] = useState("mahabharata");
-  const [section, setSection] = useState("");
 
   const bottomRef = useRef();
 
@@ -18,7 +14,7 @@ function Chat() {
   }, [messages, loading]);
 
   const handleAsk = async () => {
-    if (!question) return;
+    if (!question.trim()) return;
 
     const updated = [...messages, { type: "user", text: question }];
     setMessages(updated);
@@ -28,18 +24,17 @@ function Chat() {
     try {
       const res = await askQuestion({
         question,
-        scripture,
-        section
+        scripture: "mahabharata", // fixed for now
       });
 
       setMessages([
         ...updated,
-        { type: "bot", text: res.data.answer }
+        { type: "bot", text: res.data.answer },
       ]);
     } catch {
       setMessages([
         ...updated,
-        { type: "bot", text: "Error fetching answer" }
+        { type: "bot", text: "Error fetching answer" },
       ]);
     }
 
@@ -47,44 +42,42 @@ function Chat() {
   };
 
   return (
-    <div className="chat-layout">
+    <div className="divine-bg">
+      <div className="chat-container">
 
-      {/* Sidebar */}
-      <Sidebar
-        scripture={scripture}
-        setScripture={setScripture}
-        section={section}
-        setSection={setSection}
-      />
+        {/* CHAT BOX */}
+        <div className="chat-box">
+          {messages.length === 0 && (
+            <div className="chat-message bot">
+              Ask anything about scriptures 
+            </div>
+          )}
 
-      {/* Chat Area */}
-      <div className="chat-area">
-
-        <div className="messages">
           {messages.map((msg, i) => (
-            <div key={i} className={`msg ${msg.type}`}>
+            <div key={i} className={`chat-message ${msg.type}`}>
               {msg.text}
             </div>
           ))}
 
           {/* Typing animation */}
           {loading && (
-            <div className="msg bot typing">
-              <span></span><span></span><span></span>
+            <div className="chat-message bot">
+              Typing...
             </div>
           )}
 
           <div ref={bottomRef}></div>
         </div>
 
-        {/* Input */}
-        <div className="input-area">
+        {/* INPUT */}
+        <div className="chat-input">
           <input
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Ask about scriptures..."
+            onKeyDown={(e) => e.key === "Enter" && handleAsk()}
           />
-          <button onClick={handleAsk}>Send</button>
+          <button onClick={handleAsk}>Ask</button>
         </div>
 
       </div>
