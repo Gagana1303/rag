@@ -3,7 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes import upload, query
 from app.db.qdrant_client import create_collections
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # ================================
 # 1. CREATE APP
@@ -19,14 +22,10 @@ app = FastAPI(
 # ================================
 # 2. ENABLE CORS (IMPORTANT)
 # ================================
-origins = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://10.175.194.15:3000",  # ✅ ADD THIS
-]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # IMPORTANT
+    allow_origins=["http://localhost:3000"],  # IMPORTANT
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
