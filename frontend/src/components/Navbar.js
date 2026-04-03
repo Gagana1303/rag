@@ -3,12 +3,22 @@ import { Link } from "react-router-dom";
 function Navbar() {
   return (
     <div className="navbar">
-      <h2> Scripture AI</h2>
 
-      <div className="nav-links">
-        <Link to="/">Upload</Link>
-        <Link to="/chat">Chat</Link>
+      {/* LEFT → Upload */}
+      <div className="nav-left">
+        <Link to="/"> Upload</Link>
       </div>
+
+      {/* CENTER */}
+      <div className="nav-center">
+        🕉️ Welcome to Scriptures AI
+      </div>
+
+      {/* RIGHT → Query */}
+      <div className="nav-right">
+        <Link to="/Chat"> Query</Link>
+      </div>
+
     </div>
   );
 }
