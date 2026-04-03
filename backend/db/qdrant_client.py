@@ -1,7 +1,15 @@
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance
+from app.config import QDRANT_URL, QDRANT_API_KEY
+from qdrant_client import QdrantClient
 
-client = QdrantClient("http://localhost:6333")
+
+client = QdrantClient(
+    url=QDRANT_URL.strip(),   # 🔥 removes hidden spaces
+    api_key=QDRANT_API_KEY,
+    timeout=120,
+    check_compatibility=False
+)
 
 def create_collections():
 
